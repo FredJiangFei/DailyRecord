@@ -1,13 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { NativeBaseProvider, ColorMode } from 'native-base';
-import { useState } from 'react';
+import { NativeBaseProvider } from 'native-base';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import AppNavigator from './app/navigator/AppNavigator';
-import type { StorageManager } from 'native-base';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SbStatusBar } from '@sb/components';
 import theme from '@sb/theme/theme';
 import { useFonts } from 'expo-font';
+import DrStatusBar from '@sb/components/DrStatusBar';
 
 const config = {
   dependencies: {
@@ -16,8 +13,6 @@ const config = {
 };
 
 export default function App() {
-  const [colorMode, setColorMode] = useState('');
-
   const [fontsLoaded] = useFonts({
     'Inter-Black': require('./assets/fonts/Inter-Black.otf'),
     'Inter-BlackItalic': require('./assets/fonts/Inter-BlackItalic.otf'),
@@ -47,21 +42,10 @@ export default function App() {
     return null;
   }
 
-  const colorModeManager: StorageManager = {
-    get: async () => {
-      let val = await AsyncStorage.getItem('@color-mode');
-      setColorMode(val ?? '');
-      return val === 'dark' ? 'dark' : 'light';
-    },
-    set: async (value: ColorMode) => {
-      await AsyncStorage.setItem('@color-mode', value ?? 'light');
-    },
-  };
-
   return (
     <>
-      <SbStatusBar colorMode={colorMode} />
-      <NativeBaseProvider theme={theme} config={config} colorModeManager={colorModeManager}>
+      <DrStatusBar />
+      <NativeBaseProvider theme={theme} config={config}>
         <SafeAreaView style={styles.safeArea}>
           <Content />
         </SafeAreaView>
