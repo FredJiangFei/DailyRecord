@@ -1,17 +1,13 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import CalendarNavigator from './CalendarNavigator';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TodayNavigator from './TodayNavigator';
 import MineNavigator from './MineNavigator';
 import colors from '@sb/config/colors';
+import { Text } from 'native-base';
 
 const Tab = createBottomTabNavigator();
 
 export default function HomeTabsNavigator() {
-  const tabIcon = (name, size, color) => {
-    return <MaterialCommunityIcons name={name} size={size} color={color} />;
-  };
-
   return (
     <Tab.Navigator
       screenOptions={{
@@ -25,8 +21,7 @@ export default function HomeTabsNavigator() {
         name="TodayTab"
         component={TodayNavigator}
         options={{
-          tabBarIcon: ({ color, size }) => tabIcon('clock-outline', size, color),
-          tabBarLabel: 'Today',
+          tabBarIcon: ({ focused }) => <Text variant={focused ? '' : 'disabled'}>Today</Text>,
           headerBackgroundContainerStyle: {
             backgroundColor: colors.primary,
           },
@@ -36,14 +31,14 @@ export default function HomeTabsNavigator() {
         name="CalendarTab"
         component={CalendarNavigator}
         options={{
-          tabBarIcon: ({ color, size }) => tabIcon('chart-bar', size, color),
+          tabBarIcon: ({ focused }) => <Text variant={focused ? '' : 'disabled'}>Plans</Text>,
         }}
       />
       <Tab.Screen
         name="MineTab"
         component={MineNavigator}
         options={{
-          tabBarIcon: ({ color, size }) => tabIcon('file-document', size, color),
+          tabBarIcon: ({ focused }) => <Text variant={focused ? '' : 'disabled'}>Mine</Text>,
         }}
       />
     </Tab.Navigator>

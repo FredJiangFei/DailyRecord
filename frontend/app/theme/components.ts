@@ -7,10 +7,12 @@ const components = {
       my: 4,
     },
   },
-  Divider: {
-    baseStyle: {
-      bg: colors.light,
-    },
+  Text: {
+    variants:{
+      disabled: {
+        color: colors.light ,
+      }
+    }
   },
 };
 
