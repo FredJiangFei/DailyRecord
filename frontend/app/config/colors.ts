@@ -1,4 +1,6 @@
 export default {
-  primary: '#34d399',
-  light: '#d6d3d1',
+  primary: '#D6D9C4',
+  light: '#969A89',
+  card: '#D4BCB0',
+  cardBorder: '#80726A'
 };

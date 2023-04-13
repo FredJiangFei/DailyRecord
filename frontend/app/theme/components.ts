@@ -8,11 +8,11 @@ const components = {
     },
   },
   Text: {
-    variants:{
+    variants: {
       disabled: {
-        color: colors.light ,
-      }
-    }
+        color: colors.light,
+      },
+    },
   },
 };
 

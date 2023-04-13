@@ -1,11 +1,11 @@
 import planService from '@sb/services/planService';
-import { Button, Heading, TextArea, useDisclose } from 'native-base';
+import { useDisclose } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import PlanCard from '../Calendar/components/PlanCard';
 import DrScreen from '@sb/components/DrScreen';
 import DrModal from '@sb/components/DrModal';
-import DrForm from '@sb/components/DrForm';
 import { Plan } from '@sb/models/plan';
+import PunchPlan from './components/PunchPlan';
 
 export default function TodayScreen({ navigation }) {
   const [plans, setPlans] = useState<Plan[]>([]);
@@ -28,19 +28,18 @@ export default function TodayScreen({ navigation }) {
     onOpen();
   };
 
+  const handlePlanPunch = async (plan: Plan) => {
+    await planService.punch(plan.id);
+    onClose();
+  };
+
   return (
     <DrScreen>
       {plans.map(plan => (
         <PlanCard key={plan.id} plan={plan} onPress={() => handlePlanPress(plan)} />
       ))}
       <DrModal isOpen={isOpen} onClose={onClose}>
-        <DrScreen>
-          <Heading>{selectedPlan?.title}</Heading>
-          <DrForm>
-            <TextArea placeholder="Note" autoCompleteType="" />
-            <Button onPress={onClose}>打卡</Button>
-          </DrForm>
-        </DrScreen>
+        <PunchPlan plan={selectedPlan} onPunch={handlePlanPunch} />
       </DrModal>
     </DrScreen>
   );
