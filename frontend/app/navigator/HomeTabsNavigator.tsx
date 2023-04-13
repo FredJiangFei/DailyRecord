@@ -3,6 +3,7 @@ import CalendarNavigator from './CalendarNavigator';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TodayNavigator from './TodayNavigator';
 import MineNavigator from './MineNavigator';
+import colors from '@sb/config/colors';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,6 +16,9 @@ export default function HomeTabsNavigator() {
     <Tab.Navigator
       screenOptions={{
         tabBarShowLabel: false,
+        tabBarStyle: {
+          backgroundColor: colors.primary,
+        },
         headerShown: false,
       }}>
       <Tab.Screen
@@ -22,6 +26,10 @@ export default function HomeTabsNavigator() {
         component={TodayNavigator}
         options={{
           tabBarIcon: ({ color, size }) => tabIcon('clock-outline', size, color),
+          tabBarLabel: 'Today',
+          headerBackgroundContainerStyle: {
+            backgroundColor: colors.primary,
+          },
         }}
       />
       <Tab.Screen
