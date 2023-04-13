@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import DrModal from '@sb/components/DrModal';
 import { Button, useDisclose } from 'native-base';
-import taskService from '@sb/services/taskService';
-import CreateTask from './components/CreateTask';
-import TaskCard from './components/TaskCard';
+import planService from '@sb/services/planService';
+import CreatePlan from './components/CreatePlan';
 import DrScreen from '@sb/components/DrScreen';
 import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
+import PlanCard from './components/PlanCard';
+import { Plan } from '@sb/models/plan';
 
 export default function CalendarScreen({ navigation }) {
   const { isOpen, onOpen, onClose } = useDisclose();
-  const [tasks, setTasks] = useState([]);
+  const [plans, setPlans] = useState<Plan[]>([]);
   const nav: NavigationProp<ParamListBase> = useNavigation();
 
   useEffect(() => {
     navigation.addListener('focus', () => {
-      getTasks();
+      getPlans();
     });
   }, []);
 
@@ -28,29 +29,29 @@ export default function CalendarScreen({ navigation }) {
     });
   }, [navigation]);
 
-  const getTasks = async () => {
-    const tasks = await taskService.getAll();
-    setTasks(tasks);
+  const getPlans = async () => {
+    const plans = await planService.getAll();
+    setPlans(plans);
   };
 
-  const createTask = async (values: any) => {
-    await taskService.create(values.task);
+  const createPlan = async (values: Plan) => {
+    await planService.create(values.title);
     onClose();
-    getTasks();
+    getPlans();
   };
 
   return (
     <DrScreen>
       {isOpen && (
         <DrModal isOpen={isOpen} onClose={onClose}>
-          <CreateTask onSubmt={createTask} onClose={onClose} />
+          <CreatePlan onSubmt={createPlan} onClose={onClose} />
         </DrModal>
       )}
-      {tasks.map(task => (
-        <TaskCard
-          key={task}
-          task={task}
-          onPress={() => nav.navigate('TaskDetails', { task: task })}
+      {plans.map(plan => (
+        <PlanCard
+          key={plan.id}
+          plan={plan}
+          onPress={id => nav.navigate('PlanDetails', { id: id })}
         />
       ))}
     </DrScreen>

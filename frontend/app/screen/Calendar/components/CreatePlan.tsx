@@ -5,10 +5,10 @@ import DrFormControl from '@sb/components/DrFormControl';
 import { useFormik } from 'formik';
 
 const initValue = {
-  task: '',
+  title: '',
 };
 
-export default function CreateTask({ onSubmt, onClose }) {
+export default function CreatePlan({ onSubmt, onClose }) {
   const { handleSubmit, handleChange, isSubmitting, values, errors } = useFormik({
     initialValues: initValue,
     onSubmit: values => onSubmt(values),
@@ -25,11 +25,11 @@ export default function CreateTask({ onSubmt, onClose }) {
             </Button>
           </Row>
           <DrFormControl
-            label="Task"
-            onChangeText={handleChange('task')}
-            defaultValue={values.task}
+            label="Title"
+            onChangeText={handleChange('title')}
+            defaultValue={values.title}
             isRequired
-            error={errors['task']}
+            error={errors['title']}
           />
         </DrForm>
       </Box>
