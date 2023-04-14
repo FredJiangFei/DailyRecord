@@ -1,11 +1,11 @@
 import planService from '@sb/services/planService';
-import { useDisclose } from 'native-base';
+import { Avatar, Pressable, Row, Text, useDisclose } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import PlanCard from '../Calendar/components/PlanCard';
 import DrScreen from '@sb/components/DrScreen';
 import DrModal from '@sb/components/DrModal';
 import { Plan } from '@sb/models/plan';
 import PunchPlan from './components/PunchPlan';
+import colors from '@sb/config/colors';
 
 export default function TodayScreen({ navigation }) {
   const [plans, setPlans] = useState<Plan[]>([]);
@@ -35,9 +35,15 @@ export default function TodayScreen({ navigation }) {
 
   return (
     <DrScreen>
-      {plans.map(plan => (
-        <PlanCard key={plan.id} plan={plan} onPress={() => handlePlanPress(plan)} />
-      ))}
+      <Row flexWrap='wrap'>
+        {plans.map(plan => (
+          <Pressable onPress={() => handlePlanPress(plan)} key={plan.id} alignItems="center" w='25%' mt={4}>
+            <Avatar bg={colors.card}>{plan.title}</Avatar>
+            <Text>{plan.title}</Text>
+          </Pressable>
+        ))}
+      </Row>
+
       <DrModal isOpen={isOpen} onClose={onClose}>
         <PunchPlan plan={selectedPlan} onPunch={handlePlanPunch} />
       </DrModal>

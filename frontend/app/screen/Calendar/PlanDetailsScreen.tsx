@@ -1,18 +1,25 @@
 import { Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useRoute } from '@react-navigation/native';
-import { Button, Heading } from 'native-base';
+import { Button, ChevronLeftIcon, Heading } from 'native-base';
 import planService from '@sb/services/planService';
-import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
 import DrScreen from '@sb/components/DrScreen';
 import { Punch } from '@sb/models/punch';
 import { Plan } from '@sb/models/plan';
+import colors from '@sb/config/colors';
 
-export default function PlanDetailsScreen() {
+export default function PlanDetailsScreen({ navigation }) {
   const route: any = useRoute();
   const [punchs, setPunchs] = useState<Punch[]>([]);
   const [plan, setPlan] = useState<Plan>();
-  const nav: NavigationProp<ParamListBase> = useNavigation();
+
+  React.useEffect(() => {
+    navigation.setOptions({
+      headerBackTitle: 'Plans',
+      headerBackTitleStyle: { color: colors.back },
+      headerBackImage: () => <ChevronLeftIcon size="md" color={colors.back}/>,
+    });
+  }, [navigation]);
 
   useEffect(() => {
     getPlan();
@@ -21,7 +28,7 @@ export default function PlanDetailsScreen() {
 
   const handleDelete = async () => {
     await planService.deletePlan(route?.params?.id);
-    nav.goBack();
+    navigation.goBack();
   };
 
   const getPlan = async () => {
