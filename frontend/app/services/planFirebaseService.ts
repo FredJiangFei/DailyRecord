@@ -1,8 +1,7 @@
-import firebase from '@sb/firebase/config';
+import { db } from '@sb/firebase/config';
 import { Plan } from '@sb/models/plan';
-import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore';
+import { collection, addDoc, getDocs } from 'firebase/firestore';
 
-const db = getFirestore(firebase);
 const entityRef = collection(db, 'plans');
 
 async function create(title) {
