@@ -12,6 +12,10 @@ const components = {
       disabled: {
         color: colors.light,
       },
+      h6: {
+        color: 'gray.500',
+        fontSize: 'md',
+      }
     },
   },
 };
