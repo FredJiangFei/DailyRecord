@@ -18,7 +18,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.fredjiang.dailyrecord"
     },
     "android": {
       "adaptiveIcon": {
@@ -29,15 +30,10 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      [
-        "expo-location",
-        {
-          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location 123.",
-          "locationAlwaysPermission": "Allow $(PRODUCT_NAME) to use your location 456.",
-          "isIosBackgroundLocationEnabled": "Allow $(PRODUCT_NAME) to use your location 789"
-        }
-      ]
-    ]
+    "extra": {
+      "eas": {
+        "projectId": "8a9efe0e-ef1e-4561-843a-1ad85cbb8726"
+      }
+    }
   }
 }
