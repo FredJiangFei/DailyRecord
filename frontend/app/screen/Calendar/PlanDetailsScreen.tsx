@@ -1,20 +1,20 @@
-import { Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useRoute } from '@react-navigation/native';
-import { Button, ChevronLeftIcon, Heading } from 'native-base';
+import { Button, ChevronLeftIcon, Heading, useDisclose } from 'native-base';
 import planService from '@sb/services/planService';
-import { Punch } from '@sb/models/punch';
 import { Plan } from '@sb/models/plan';
 import colors from '@sb/config/colors';
 import { Calendar } from 'react-native-calendars';
 import DrScrollScreen from '@sb/components/DrScrollScreen';
 import { MarkedDates } from 'react-native-calendars/src/types';
+import DrConfirm from '@sb/components/DrConfirm';
 
 export default function PlanDetailsScreen({ navigation }) {
   const route: any = useRoute();
   const [punchs, setPunchs] = useState<MarkedDates>();
   const [plan, setPlan] = useState<Plan>();
   const id = route?.params?.id;
+  const { isOpen, onOpen, onClose } = useDisclose();
 
   React.useEffect(() => {
     navigation.setOptions({
@@ -31,6 +31,7 @@ export default function PlanDetailsScreen({ navigation }) {
 
   const handleDelete = async () => {
     await planService.deletePlan(id);
+    onClose();
     navigation.goBack();
   };
 
@@ -41,7 +42,7 @@ export default function PlanDetailsScreen({ navigation }) {
 
   const getPunchs = async () => {
     const punchs = await planService.getPunchs(id);
-    
+
     const punchsMap = {};
     punchs.forEach(punch => {
       punchsMap[punch.date] = { selected: true, selectedColor: colors.card };
@@ -54,7 +55,17 @@ export default function PlanDetailsScreen({ navigation }) {
       <Heading>{plan?.title}</Heading>
       <Calendar markedDates={punchs} />
 
-      <Button onPress={handleDelete} mt={2}>Delete</Button>
+      <Button onPress={onOpen} mt={2}>
+        删除计划
+      </Button>
+
+      <DrConfirm
+        isOpen={isOpen}
+        onClose={onClose}
+        onConfirm={handleDelete}
+        title="删除计划"
+        content="确定要删除计划吗?"
+      />
     </DrScrollScreen>
   );
 }
