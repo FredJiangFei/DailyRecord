@@ -6,8 +6,7 @@ import { useFormik } from 'formik';
 import { AntDesign } from "@expo/vector-icons";
 
 const initValue = {
-  title: '',
-  units: ''
+  title: ''
 };
 
 export default function CreatePlan({ onSubmt, onClose }) {
@@ -30,18 +29,11 @@ export default function CreatePlan({ onSubmt, onClose }) {
             </Button>
           </Row>
           <DrFormControl
-            label="Title"
+            label="计划名称"
             onChangeText={handleChange('title')}
             defaultValue={values.title}
             isRequired
             error={errors['title']}
-          />
-          <DrFormControl
-            label="Units"
-            onChangeText={handleChange('units')}
-            defaultValue={values.units}
-            isRequired
-            error={errors['units']}
           />
         </DrForm>
       </Box>

@@ -55,7 +55,7 @@ export default function PlanDetailsScreen({ navigation }) {
       <Heading>{plan?.title}</Heading>
       <Calendar markedDates={punchs} />
 
-      <Button onPress={onOpen} mt={2}>
+      <Button onPress={onOpen} my={2}>
         删除计划
       </Button>
 
