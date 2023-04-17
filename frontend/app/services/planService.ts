@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Plan } from '@sb/models/plan';
 import utils from '@sb/utils/utils';
+var moment = require('moment');
 
 const PLANS_KEY = '@dr-plans';
 
@@ -41,7 +42,6 @@ async function getAll() {
 }
 
 async function punch(id) {
-  const today = new Date();
   const key = `${PLANS_KEY}-${id}`;
   const punchs = await AsyncStorage.getItem(key);
   const punchArray = JSON.parse(punchs ?? '[]');
@@ -50,7 +50,7 @@ async function punch(id) {
     ...punchArray,
     {
       id: utils.generateUUID(),
-      date: today.toLocaleDateString(),
+      date: moment().format('YYYY-MM-DD'),
     },
   ];
   await AsyncStorage.setItem(key, JSON.stringify(newPunchs));
