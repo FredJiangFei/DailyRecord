@@ -42,6 +42,7 @@ async function getAll() {
 }
 
 async function punch(id) {
+  const today = moment().format('YYYY-MM-DD');
   const key = `${PLANS_KEY}-${id}`;
   const punchs = await AsyncStorage.getItem(key);
   const punchArray = JSON.parse(punchs ?? '[]');
@@ -50,7 +51,7 @@ async function punch(id) {
     ...punchArray,
     {
       id: utils.generateUUID(),
-      date: moment().format('YYYY-MM-DD'),
+      date: today,
     },
   ];
   await AsyncStorage.setItem(key, JSON.stringify(newPunchs));

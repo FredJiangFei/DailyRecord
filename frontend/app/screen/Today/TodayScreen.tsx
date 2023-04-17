@@ -6,10 +6,12 @@ import DrModal from '@sb/components/DrModal';
 import { Plan } from '@sb/models/plan';
 import PunchPlan from './components/PunchPlan';
 import colors from '@sb/config/colors';
+import { PunchCommand } from '@sb/models/commands/punchCommand';
+var moment = require('moment');
 
 export default function TodayScreen({ navigation }) {
   const [plans, setPlans] = useState<Plan[]>([]);
-  const [selectedPlan, setSelectedPlan] = useState<Plan>();
+  const [selectedPlan, setSelectedPlan] = useState<PunchCommand>();
   const { isOpen, onOpen, onClose } = useDisclose();
 
   useEffect(() => {
@@ -23,8 +25,14 @@ export default function TodayScreen({ navigation }) {
     setPlans(plans);
   };
 
-  const handlePlanPress = (plan: Plan) => {
-    setSelectedPlan(plan);
+  const handlePlanPress = async (plan: Plan) => {
+    const punchs = await planService.getPunchs(plan.id);
+    const today = moment().format('YYYY-MM-DD');
+    const todayPunch = punchs.find(p => p.date === today);    
+    setSelectedPlan({
+      ...plan,
+      isPunchToday: todayPunch ? true : false,
+    });
     onOpen();
   };
 
