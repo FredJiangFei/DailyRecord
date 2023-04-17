@@ -11,13 +11,17 @@ async function create(title) {
 }
 
 async function getAll(): Promise<Plan[]> {
+  console.log('getAll');
   const result = await getDocs(entityRef);
-  const plans = await result.docs.map(doc => ({
-    id: doc.id,
-    title: doc.data().title,
-  }));
+  result.forEach((doc) => {
+    console.log(`${doc.id} => ${doc.data()}`);
+  });
+  // const plans = await result.docs.map(doc => ({
+  //   id: doc.id,
+  //   title: doc.data().title,
+  // }));
 
-  return plans;
+  return [];
 }
 
 export default {

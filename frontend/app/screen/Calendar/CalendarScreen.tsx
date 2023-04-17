@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import DrModal from '@sb/components/DrModal';
 import { IconButton, useDisclose } from 'native-base';
 import planService from '@sb/services/planService';
-import planFirebaseService from '@sb/services/planFirebaseService';
 import CreatePlan from './components/CreatePlan';
 import DrScreen from '@sb/components/DrScreen';
 import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
@@ -33,12 +32,13 @@ export default function CalendarScreen({ navigation }) {
   }, [navigation]);
 
   const getPlans = async () => {
-    const plans = await planFirebaseService.getAll();
+    const plans = await planService.getAll();
+  
     setPlans(plans);
   };
 
   const createPlan = async (values: Plan) => {
-    await planFirebaseService.create(values.title);
+    await planService.create(values.title);
     onClose();
     getPlans();
   };

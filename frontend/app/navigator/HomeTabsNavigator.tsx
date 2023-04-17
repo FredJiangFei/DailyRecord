@@ -1,7 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import CalendarNavigator from './CalendarNavigator';
 import TodayNavigator from './TodayNavigator';
-import MineNavigator from './MineNavigator';
 import colors from '@sb/config/colors';
 import { Text } from 'native-base';
 
@@ -21,7 +20,7 @@ export default function HomeTabsNavigator() {
         name="TodayTab"
         component={TodayNavigator}
         options={{
-          tabBarIcon: ({ focused }) => <Text variant={focused ? '' : 'disabled'}>Today</Text>,
+          tabBarIcon: ({ focused }) => <Text variant={focused ? '' : 'disabled'}>今天</Text>,
           headerBackgroundContainerStyle: {
             backgroundColor: colors.primary,
           },
@@ -31,14 +30,7 @@ export default function HomeTabsNavigator() {
         name="CalendarTab"
         component={CalendarNavigator}
         options={{
-          tabBarIcon: ({ focused }) => <Text variant={focused ? '' : 'disabled'}>Plans</Text>,
-        }}
-      />
-      <Tab.Screen
-        name="MineTab"
-        component={MineNavigator}
-        options={{
-          tabBarIcon: ({ focused }) => <Text variant={focused ? '' : 'disabled'}>Mine</Text>,
+          tabBarIcon: ({ focused }) => <Text variant={focused ? '' : 'disabled'}>计划</Text>,
         }}
       />
     </Tab.Navigator>
