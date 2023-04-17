@@ -12,6 +12,7 @@ export default function PlanDetailsScreen({ navigation }) {
   const route: any = useRoute();
   const [punchs, setPunchs] = useState<Punch[]>([]);
   const [plan, setPlan] = useState<Plan>();
+  const id = route?.params?.id;
 
   React.useEffect(() => {
     navigation.setOptions({
@@ -27,17 +28,17 @@ export default function PlanDetailsScreen({ navigation }) {
   }, []);
 
   const handleDelete = async () => {
-    await planService.deletePlan(route?.params?.id);
+    await planService.deletePlan(id);
     navigation.goBack();
   };
 
   const getPlan = async () => {
-    const plan = await planService.getPlan(route?.params?.id);
+    const plan = await planService.getPlan(id);
     setPlan(plan);
   };
 
   const getPunchs = async () => {
-    const punchs = await planService.getPunchs(route?.params?.id);
+    const punchs = await planService.getPunchs(id);
     setPunchs(punchs);
   };
 
@@ -47,6 +48,8 @@ export default function PlanDetailsScreen({ navigation }) {
       {punchs.map(punch => (
         <Text key={punch.id}>{punch.date}</Text>
       ))}
+
+      <Text>{route?.params?.id}</Text>
 
       <Button onPress={handleDelete}>Delete</Button>
     </DrScreen>

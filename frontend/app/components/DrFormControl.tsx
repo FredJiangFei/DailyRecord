@@ -19,16 +19,6 @@ const DrFormControl: React.FC<IInputProps & PropType> = (props) => {
   return (
     <FormControl isRequired={isRequired} isInvalid={error} isDisabled={isDisabled}>
       <Stack>
-        <FormControl.Label
-          _disabled={{
-            _text: {
-              color: 'gray.400',
-              fontWeight: 'bold',
-            },
-          }}
-        >
-          {label}
-        </FormControl.Label>
         <Input isRequired={isRequired} placeholder={label} {...rest} />
         {helperText && !error && (
           <FormControl.HelperText>{helperText}</FormControl.HelperText>

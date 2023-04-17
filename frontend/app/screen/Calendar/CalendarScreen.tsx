@@ -38,7 +38,7 @@ export default function CalendarScreen({ navigation }) {
   };
 
   const createPlan = async (values: Plan) => {
-    await planService.create(values.title);
+    await planService.create(values);
     onClose();
     getPlans();
   };
