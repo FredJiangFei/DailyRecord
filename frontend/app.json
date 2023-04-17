@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Daily Record",
+    "name": "格格日常",
     "slug": "daily-record",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -19,7 +19,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.fredjiang.dailyrecord"
+      "bundleIdentifier": "com.fredjiang.dailyrecord",
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {

@@ -18,7 +18,7 @@ export default function PlanDetailsScreen({ navigation }) {
 
   React.useEffect(() => {
     navigation.setOptions({
-      headerBackTitle: 'Plans',
+      headerBackTitle: '计划',
       headerBackTitleStyle: { color: colors.back },
       headerBackImage: () => <ChevronLeftIcon size="md" color={colors.back} />,
     });
