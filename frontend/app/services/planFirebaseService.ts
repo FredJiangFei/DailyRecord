@@ -4,24 +4,18 @@ import { collection, addDoc, getDocs } from 'firebase/firestore';
 
 const entityRef = collection(db, 'plans');
 
-async function create(title) {
-  await addDoc(entityRef, {
-    title: title,
-  });
+async function create(data) {
+  await addDoc(entityRef, data);
 }
 
 async function getAll(): Promise<Plan[]> {
-  console.log('getAll');
   const result = await getDocs(entityRef);
-  result.forEach((doc) => {
-    console.log(`${doc.id} => ${doc.data()}`);
-  });
-  // const plans = await result.docs.map(doc => ({
-  //   id: doc.id,
-  //   title: doc.data().title,
-  // }));
+  const plans = await result.docs.map(doc => ({
+    id: doc.id,
+    title: doc.data().title,
+  }));
 
-  return [];
+  return plans;
 }
 
 export default {
