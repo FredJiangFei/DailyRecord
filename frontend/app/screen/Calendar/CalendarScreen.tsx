@@ -7,7 +7,7 @@ import DrScreen from '@sb/components/DrScreen';
 import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
 import PlanCard from './components/PlanCard';
 import { Plan } from '@sb/models/plan';
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign } from '@expo/vector-icons';
 
 export default function CalendarScreen({ navigation }) {
   const { isOpen, onOpen, onClose } = useDisclose();
@@ -23,17 +23,24 @@ export default function CalendarScreen({ navigation }) {
   React.useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <IconButton size={8} mr={2} onPress={onOpen} variant="solid" borderRadius={50} _icon={{
-          as: AntDesign,
-          name: "plus"
-        }} />
+        <IconButton
+          size={8}
+          mr={2}
+          onPress={onOpen}
+          variant="solid"
+          borderRadius={50}
+          _icon={{
+            as: AntDesign,
+            name: 'plus',
+          }}
+        />
       ),
     });
   }, [navigation]);
 
   const getPlans = async () => {
     const plans = await planService.getAll();
-  
+
     setPlans(plans);
   };
 

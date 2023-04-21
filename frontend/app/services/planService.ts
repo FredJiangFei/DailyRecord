@@ -1,74 +1,61 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { db } from '@sb/firebase/config';
 import { Plan } from '@sb/models/plan';
 import utils from '@sb/utils/utils';
+import { collection, addDoc, setDoc, getDoc, getDocs, doc, deleteDoc } from 'firebase/firestore';
 var moment = require('moment');
 
-const PLANS_KEY = '@dr-plans';
+const entityRef = collection(db, 'plans');
 
-async function create(plan: Plan) {
-  const plans = await AsyncStorage.getItem(PLANS_KEY);
-  const planArray = JSON.parse(plans ?? '[]');
-  const newPlans = [
-    ...planArray,
-    {
-      id: utils.generateUUID(),
-      title: plan.title
-    },
-  ];
-
-  await AsyncStorage.setItem(PLANS_KEY, JSON.stringify(newPlans));
+async function create(data) {
+  await addDoc(entityRef, data);
 }
 
-async function getPlan(id) {
-  const plans = await AsyncStorage.getItem(PLANS_KEY);
-  const planArray = JSON.parse(plans ?? '[]');
-  const plan = planArray.find(x => x.id === id);
-  return plan;
+async function getPlan(id): Promise<Plan> {
+  const plan = await getDoc(doc(db, 'plans', id));
+  return {
+    id: plan.id,
+    title: plan.data()?.title,
+  };
 }
 
 async function deletePlan(id) {
-  const plans = await AsyncStorage.getItem(PLANS_KEY);
-  const planArray = JSON.parse(plans ?? '[]');
-  const newPlans = planArray.filter(x => x.id != id);
-  await AsyncStorage.setItem(PLANS_KEY, JSON.stringify(newPlans));
-
-  await AsyncStorage.removeItem(`${PLANS_KEY}-${id}`);
+  await deleteDoc(doc(db, 'plans', id));
 }
 
-async function getAll() {
-  const plans = await AsyncStorage.getItem(PLANS_KEY);
-  const planArray = JSON.parse(plans ?? '[]');
-  return planArray;
+async function getAll(): Promise<Plan[]> {
+  const result = await getDocs(entityRef);
+  const plans = await result.docs.map(doc => ({
+    id: doc.id,
+    title: doc.data().title,
+  }));
+
+  return plans;
 }
 
 async function punch(id) {
   const today = moment().format('YYYY-MM-DD');
-  const key = `${PLANS_KEY}-${id}`;
-  const punchs = await AsyncStorage.getItem(key);
-  const punchArray = JSON.parse(punchs ?? '[]');
-
   const newPunchs = [
-    ...punchArray,
     {
       id: utils.generateUUID(),
       date: today,
     },
   ];
-  await AsyncStorage.setItem(key, JSON.stringify(newPunchs));
+  const data = {
+    punchs: newPunchs,
+  };
+  await setDoc(doc(db, 'plans', id), data, { merge: true });
 }
 
 async function getPunchs(id) {
-  const key = `${PLANS_KEY}-${id}`;
-  const punchs = await AsyncStorage.getItem(key);
-  const punchArray = JSON.parse(punchs ?? '[]');
-  return punchArray;
+  const plan = await getDoc(doc(db, 'plans', id));
+  return plan.data()?.punchs;
 }
 
 export default {
   create,
+  getAll,
   getPlan,
   deletePlan,
-  getAll,
   punch,
   getPunchs,
 };

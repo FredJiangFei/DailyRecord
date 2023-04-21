@@ -28,7 +28,7 @@ export default function TodayScreen({ navigation }) {
   const handlePlanPress = async (plan: Plan) => {
     const punchs = await planService.getPunchs(plan.id);
     const today = moment().format('YYYY-MM-DD');
-    const todayPunch = punchs.find(p => p.date === today);    
+    const todayPunch = punchs.find(p => p.date === today);
     setSelectedPlan({
       ...plan,
       isPunchToday: todayPunch ? true : false,
@@ -43,9 +43,14 @@ export default function TodayScreen({ navigation }) {
 
   return (
     <DrScreen>
-      <Row flexWrap='wrap'>
+      <Row flexWrap="wrap">
         {plans.map(plan => (
-          <Pressable onPress={() => handlePlanPress(plan)} key={plan.id} alignItems="center" w='25%' mt={4}>
+          <Pressable
+            onPress={() => handlePlanPress(plan)}
+            key={plan.id}
+            alignItems="center"
+            w="25%"
+            mt={4}>
             <Avatar bg={colors.card}>{plan.title}</Avatar>
             <Text>{plan.title}</Text>
           </Pressable>
